@@ -1,23 +1,29 @@
 public class Main {
-    public static void main(String[] args) {
-        int[] nums = {5, 7, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1};
-        //int[] nums = {2,3,0,1,4};
-        int res = 0;
-        int lastStep = -1;
-        int position = nums.length - 1;
-
-        while (position != 0) {
-            //System.out.println("NEW");
-            for (int i = position - 1; i >= 0; i--) {
-                if (nums[i] + i >= position) {
-                    lastStep = i;
-                    //System.out.println("LAST " + nums[i]);
+    public static int jump(int[] nums) {
+        int ans = 0;
+        int pos = 0;
+        int reachable = nums[pos] + pos;
+        while (pos < nums.length - 1) {
+            int max = pos + nums[pos];
+            for (int i = pos + 1; i <= reachable; i++) {
+                if (reachable >= nums.length - 1) {
+                    ans++;
+                    return ans;
+                }
+                if (nums[i] + i > max) {
+                    max = nums[i] + i;
+                    pos = i;
                 }
             }
-            res++;
-            position = lastStep;
-            //System.out.println("POS " + position);
+            reachable = nums[pos] + pos;
+            ans++;
         }
-        System.out.println(res);
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(jump(new int[]{2, 3, 1, 1, 4}));
+        System.out.println(jump(new int[]{1, 2}));
+        System.out.println(jump(new int[]{2, 1}));
     }
 }
